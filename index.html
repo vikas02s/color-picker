@@ -1,82 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Color Picker</title>
-    <style>
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-        padding: 30px 20px;
-        margin: 0;
-        background-color: #f4f4f4;
-        text-align: center;
-        color: #333;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color Picker</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      padding: 30px 20px;
+      margin: 0;
+      background-color: #f4f4f4;
+      text-align: center;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    #colorInput {
+      width: 100px;
+      height: 100px;
+      border: none;
+      border-radius: 50%;
+      padding: 0;
+      margin: 0 auto 20px auto;
+      background: none;
+      cursor: pointer;
+    }
+
+    #colorDisplay {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      font-size: 16px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Pick a Color</h2>
+  <input type="color" id="colorInput" value="#FF0000" />
+  <div id="colorDisplay">Selected: #FF0000</div>
+  <button onclick="sendColor()">Confirm the Color</button>
+
+  <script>
+    const colorInput = document.getElementById("colorInput");
+    const colorDisplay = document.getElementById("colorDisplay");
+
+    colorInput.addEventListener("input", () => {
+      const hex = colorInput.value.toUpperCase();
+      colorDisplay.textContent = `Selected: ${hex}`;
+    });
+
+    function sendColor() {
+      const hex = colorInput.value.toUpperCase();
+      const message = JSON.stringify({ color: hex });
+
+      if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+        window.ReactNativeWebView.postMessage(message); // For AppMaster
+      } else {
+        alert("Browser preview: " + hex); // Fallback for browser
       }
-
-      h2 {
-        font-size: 22px;
-        margin-bottom: 20px;
-      }
-
-      #colorInput {
-        width: 100px;
-        height: 100px;
-        border: none;
-        border-radius: 50%;
-        padding: 0;
-        margin: 0 auto 20px auto;
-        background: none;
-        cursor: pointer;
-      }
-
-      #colorDisplay {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 30px;
-      }
-
-      button {
-        background-color: #007BFF;
-        color: #fff;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      button:active {
-        background-color: #0056b3;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Pick a Color</h2>
-    <input type="color" id="colorInput" value="#FF0000" />
-    <div id="colorDisplay">Selected: #FF0000</div>
-    <button onclick="sendColor()">Confirm the Color</button>
-
-    <script>
-      const colorInput = document.getElementById("colorInput");
-      const colorDisplay = document.getElementById("colorDisplay");
-
-      colorInput.addEventListener("input", () => {
-        const hex = colorInput.value.toUpperCase();
-        colorDisplay.textContent = `Selected: ${hex}`;
-      });
-
-      function sendColor() {
-        const hex = colorInput.value.toUpperCase();
-        const message = JSON.stringify({ color: hex });
-
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(message);
-        } else {
-          alert("Selected Color: " + hex);
-        }
-      }
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
