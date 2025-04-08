@@ -72,9 +72,9 @@
       const message = JSON.stringify({ color: hex });
 
       if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-        window.ReactNativeWebView.postMessage(message); // For AppMaster
+        window.ReactNativeWebView.postMessage(message);
       } else {
-        alert("Browser preview: " + hex); // Fallback for browser
+        alert("Browser preview: " + hex);
       }
     }
   </script>
