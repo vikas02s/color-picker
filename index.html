@@ -65,10 +65,10 @@
     };
 
     // Listener for "message" events (simulated app response)
-    window.addEventListener("message", function (event) {
-      log.innerHTML = `<p><strong>📩 Received message:</strong> ${event.data}</p>`;
-      console.log('abcd');
-    });
+    // window.addEventListener("message", function (event) {
+    //   log.innerHTML = `<p><strong>📩 Received message:</strong> ${event.data}</p>`;
+    //   console.log('abcd');
+    // });
 
     // colorInput.addEventListener("input", () => {
     //   const hex = colorInput.value.toUpperCase();
@@ -82,10 +82,10 @@
     }
 
     // Simulate initial WebView test message
-    window.onload = function () {
-      const testMessage = JSON.stringify({ test: "WebView loaded successfully" });
-      window.ReactNativeWebView.postMessage(testMessage);
-    };
+    // window.onload = function () {
+    //   const testMessage = JSON.stringify({ test: "WebView loaded successfully" });
+    //   window.ReactNativeWebView.postMessage(testMessage);
+    // };
   </script>
 </body>
 </html>
