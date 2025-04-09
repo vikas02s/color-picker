@@ -67,12 +67,13 @@
     // Listener for "message" events (simulated app response)
     window.addEventListener("message", function (event) {
       log.innerHTML = `<p><strong>📩 Received message:</strong> ${event.data}</p>`;
+      console.log(log.innerHTML)
     });
 
-    colorInput.addEventListener("input", () => {
-      const hex = colorInput.value.toUpperCase();
-      colorDisplay.textContent = `Selected: ${hex}`;
-    });
+    // colorInput.addEventListener("input", () => {
+    //   const hex = colorInput.value.toUpperCase();
+    //   colorDisplay.textContent = `Selected: ${hex}`;
+    // });
 
     function sendColor() {
       const hex = colorInput.value.toUpperCase();
