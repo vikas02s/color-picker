@@ -2,93 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Color Picker</title>
+  <title>Color Picker – WebView Mock Test</title>
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      padding: 30px 20px;
-      margin: 0;
-      background-color: #f4f4f4;
+      font-family: sans-serif;
       text-align: center;
-      color: #333;
+      padding: 40px;
     }
 
-    h2 {
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
-
-    #colorInput {
+    input[type="color"] {
       width: 100px;
       height: 100px;
       border: none;
       border-radius: 50%;
-      padding: 0;
-      margin: 0 auto 20px auto;
-      background: none;
       cursor: pointer;
-    }
-
-    #colorDisplay {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     button {
       background-color: #007BFF;
-      color: #fff;
+      color: white;
       font-size: 16px;
       padding: 12px 24px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
     }
 
-    button:active {
-      background-color: #0056b3;
+    #log {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #444;
     }
   </style>
 </head>
 <body>
-  <h2>Pick a Color</h2>
-  <input type="color" id="colorInput" value="#FF0000" />
-  <div id="colorDisplay">Selected: #FF0000</div>
-  <button onclick="sendColor()">Confirm the Color</button>
+
+  <h2>🧪 Color Picker Test</h2>
+  <input type="color" id="colorInput" value="#00FF00" />
+  <div id="colorDisplay">Selected: #00FF00</div>
+  <button onclick="sendColor()">Send Color (Simulated)</button>
+
+  <div id="log"></div>
 
   <script>
     const colorInput = document.getElementById("colorInput");
     const colorDisplay = document.getElementById("colorDisplay");
+    const log = document.getElementById("log");
 
-    // Update display when user changes color
+    // Mock ReactNativeWebView for browser
+    window.ReactNativeWebView = {
+      postMessage: function (message) {
+        alert("✅ Simulated postMessage: " + message);
+
+        // Simulate response from mobile app
+        setTimeout(() => {
+          window.dispatchEvent(new MessageEvent("message", {
+            data: "🧠 Simulated app response: " + message
+          }));
+        }, 1000);
+      }
+    };
+
+    // Listener for "message" events (simulated app response)
+    window.addEventListener("message", function (event) {
+      log.innerHTML = `<p><strong>📩 Received message:</strong> ${event.data}</p>`;
+    });
+
     colorInput.addEventListener("input", () => {
       const hex = colorInput.value.toUpperCase();
       colorDisplay.textContent = `Selected: ${hex}`;
     });
 
-    // Send selected color to AppMaster
     function sendColor() {
       const hex = colorInput.value.toUpperCase();
       const message = JSON.stringify({ color: hex });
-
-      if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-        window.ReactNativeWebView.postMessage(message);
-      } else {
-        alert("Browser preview: " + hex);
-      }
+      window.ReactNativeWebView.postMessage(message);
     }
 
-    // 🔁 Send a test message when the page loads (for WebView event test)
+    // Simulate initial WebView test message
     window.onload = function () {
-      const testMessage = JSON.stringify({ test: "WebView trigger working!" });
-
-      if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-        window.ReactNativeWebView.postMessage(testMessage);
-      } else {
-        console.log("Browser mode: test message = " + testMessage);
-      }
+      const testMessage = JSON.stringify({ test: "WebView loaded successfully" });
+      window.ReactNativeWebView.postMessage(testMessage);
     };
   </script>
 </body>
