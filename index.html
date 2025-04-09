@@ -62,11 +62,13 @@
     const colorInput = document.getElementById("colorInput");
     const colorDisplay = document.getElementById("colorDisplay");
 
+    // Update display when user changes color
     colorInput.addEventListener("input", () => {
       const hex = colorInput.value.toUpperCase();
       colorDisplay.textContent = `Selected: ${hex}`;
     });
 
+    // Send selected color to AppMaster
     function sendColor() {
       const hex = colorInput.value.toUpperCase();
       const message = JSON.stringify({ color: hex });
@@ -77,6 +79,17 @@
         alert("Browser preview: " + hex);
       }
     }
+
+    // 🔁 Send a test message when the page loads (for WebView event test)
+    window.onload = function () {
+      const testMessage = JSON.stringify({ test: "WebView trigger working!" });
+
+      if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+        window.ReactNativeWebView.postMessage(testMessage);
+      } else {
+        console.log("Browser mode: test message = " + testMessage);
+      }
+    };
   </script>
 </body>
 </html>
